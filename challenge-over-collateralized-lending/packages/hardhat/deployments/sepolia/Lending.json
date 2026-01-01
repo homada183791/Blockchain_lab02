@@ -1,0 +1,451 @@
+{
+  "address": "0xe83E413B9697046255e2D1CAD4273528620D2FeF",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "cornDEX",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "corn",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "inputs": [],
+      "name": "Lending__BorrowingFailed",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "Lending__InsufficientLiquidatorCorn",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "Lending__InvalidAmount",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "Lending__NotLiquidatable",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "Lending__RepayingFailed",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "Lending__TransferFailed",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "Lending__UnsafePositionRatio",
+      "type": "error"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "user",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "price",
+          "type": "uint256"
+        }
+      ],
+      "name": "AssetBorrowed",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "user",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "price",
+          "type": "uint256"
+        }
+      ],
+      "name": "AssetRepaid",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "user",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "price",
+          "type": "uint256"
+        }
+      ],
+      "name": "CollateralAdded",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "user",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "price",
+          "type": "uint256"
+        }
+      ],
+      "name": "CollateralWithdrawn",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "borrower",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "liquidator",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "collateralTaken",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "debtRepaid",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "price",
+          "type": "uint256"
+        }
+      ],
+      "name": "Liquidation",
+      "type": "event"
+    },
+    {
+      "inputs": [],
+      "name": "COLLATERAL_RATIO",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "LIQUIDATOR_REWARD",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "addCollateral",
+      "outputs": [],
+      "stateMutability": "payable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "borrowAmount",
+          "type": "uint256"
+        }
+      ],
+      "name": "borrowCorn",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "user",
+          "type": "address"
+        }
+      ],
+      "name": "calculateCollateralValue",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "ethCollateralAmount",
+          "type": "uint256"
+        }
+      ],
+      "name": "getMaxBorrowAmount",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "user",
+          "type": "address"
+        }
+      ],
+      "name": "isLiquidatable",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "user",
+          "type": "address"
+        }
+      ],
+      "name": "liquidate",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "repayAmount",
+          "type": "uint256"
+        }
+      ],
+      "name": "repayCorn",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "s_userBorrowed",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "s_userCollateral",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "withdrawCollateral",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "stateMutability": "payable",
+      "type": "receive"
+    }
+  ],
+  "transactionHash": "0x6c6e2387d78fa04c94117c5f56a40bbc68f1823e9321b2d9bde4183d7932eb53",
+  "receipt": {
+    "to": null,
+    "from": "0x8488e9a99F776B68bc28B56C3AB5002859E32180",
+    "contractAddress": "0xe83E413B9697046255e2D1CAD4273528620D2FeF",
+    "transactionIndex": 24,
+    "gasUsed": "884905",
+    "logsBloom": "0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+    "blockHash": "0xb88650391834e604e22842e31a9776ebcf4da881885d4ca79cc24d2cb660314a",
+    "transactionHash": "0x6c6e2387d78fa04c94117c5f56a40bbc68f1823e9321b2d9bde4183d7932eb53",
+    "logs": [],
+    "blockNumber": 9957012,
+    "cumulativeGasUsed": "5429297",
+    "status": 1,
+    "byzantium": true
+  },
+  "args": [
+    "0x5dFf535FEf9741Dd5d969393252886C9F7F315cF",
+    "0x9ca9cc97d0Cb22cb24B557824267645FAf4c21Bb"
+  ],
+  "numDeployments": 1,
+  "solcInputHash": "63358d759a697a1ef5808c54944cc254",
+  "metadata": "{\"compiler\":{\"version\":\"0.8.20+commit.a1b79de6\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"address\",\"name\":\"cornDEX\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"corn\",\"type\":\"address\"}],\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"inputs\":[],\"name\":\"Lending__BorrowingFailed\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"Lending__InsufficientLiquidatorCorn\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"Lending__InvalidAmount\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"Lending__NotLiquidatable\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"Lending__RepayingFailed\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"Lending__TransferFailed\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"Lending__UnsafePositionRatio\",\"type\":\"error\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"user\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"price\",\"type\":\"uint256\"}],\"name\":\"AssetBorrowed\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"user\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"price\",\"type\":\"uint256\"}],\"name\":\"AssetRepaid\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"user\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"price\",\"type\":\"uint256\"}],\"name\":\"CollateralAdded\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"user\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"price\",\"type\":\"uint256\"}],\"name\":\"CollateralWithdrawn\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"borrower\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"liquidator\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"collateralTaken\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"debtRepaid\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"price\",\"type\":\"uint256\"}],\"name\":\"Liquidation\",\"type\":\"event\"},{\"inputs\":[],\"name\":\"COLLATERAL_RATIO\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"LIQUIDATOR_REWARD\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"addCollateral\",\"outputs\":[],\"stateMutability\":\"payable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"borrowAmount\",\"type\":\"uint256\"}],\"name\":\"borrowCorn\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"user\",\"type\":\"address\"}],\"name\":\"calculateCollateralValue\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"ethCollateralAmount\",\"type\":\"uint256\"}],\"name\":\"getMaxBorrowAmount\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"user\",\"type\":\"address\"}],\"name\":\"isLiquidatable\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"user\",\"type\":\"address\"}],\"name\":\"liquidate\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"repayAmount\",\"type\":\"uint256\"}],\"name\":\"repayCorn\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"name\":\"s_userBorrowed\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"name\":\"s_userCollateral\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"withdrawCollateral\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"stateMutability\":\"payable\",\"type\":\"receive\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"contracts/Lending.sol\":\"Lending\"},\"evmVersion\":\"paris\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\",\"useLiteralContent\":true},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"contracts/Lending.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\npragma solidity ^0.8.20;\\n\\ninterface ICorn {\\n    function transfer(address to, uint256 amount) external returns (bool);\\n    function transferFrom(address from, address to, uint256 amount) external returns (bool);\\n    function balanceOf(address user) external view returns (uint256);\\n}\\n\\ninterface ICornDEX {\\n    function currentPrice() external view returns (uint256);\\n}\\n\\nerror Lending__InvalidAmount();\\nerror Lending__UnsafePositionRatio();\\nerror Lending__BorrowingFailed();\\nerror Lending__RepayingFailed();\\nerror Lending__TransferFailed();\\nerror Lending__NotLiquidatable();\\nerror Lending__InsufficientLiquidatorCorn();\\n\\ncontract Lending {\\n    event CollateralAdded(address indexed user, uint256 amount, uint256 price);\\n    event CollateralWithdrawn(address indexed user, uint256 amount, uint256 price);\\n    event AssetBorrowed(address indexed user, uint256 amount, uint256 price);\\n    event AssetRepaid(address indexed user, uint256 amount, uint256 price);\\n    event Liquidation(\\n        address indexed borrower,\\n        address indexed liquidator,\\n        uint256 collateralTaken,\\n        uint256 debtRepaid,\\n        uint256 price\\n    );\\n\\n    uint256 public constant COLLATERAL_RATIO = 120; // 120%\\n    uint256 public constant LIQUIDATOR_REWARD = 10; // 10%\\n\\n    ICorn private immutable i_corn;\\n    ICornDEX private immutable i_cornDEX;\\n\\n    // \\u2705 MUST be public for tests (auto-getters)\\n    mapping(address => uint256) public s_userCollateral; // ETH\\n    mapping(address => uint256) public s_userBorrowed;   // CORN\\n\\n    // \\u2705 IMPORTANT: tests/deploy pass args as [cornDEX, corn]\\n    constructor(address cornDEX, address corn) {\\n        i_cornDEX = ICornDEX(cornDEX);\\n        i_corn = ICorn(corn);\\n    }\\n\\n    function addCollateral() public payable {\\n        if (msg.value == 0) revert Lending__InvalidAmount();\\n        s_userCollateral[msg.sender] += msg.value;\\n        emit CollateralAdded(msg.sender, msg.value, i_cornDEX.currentPrice());\\n    }\\n\\n    function withdrawCollateral(uint256 amount) public {\\n        if (amount == 0 || s_userCollateral[msg.sender] < amount) {\\n            revert Lending__InvalidAmount();\\n        }\\n\\n        s_userCollateral[msg.sender] -= amount;\\n\\n        // Prevent unsafe withdrawals if user has debt\\n        if (s_userBorrowed[msg.sender] > 0) {\\n            _validatePosition(msg.sender);\\n        }\\n\\n        (bool success,) = payable(msg.sender).call{value: amount}(\\\"\\\");\\n        if (!success) revert Lending__TransferFailed();\\n\\n        emit CollateralWithdrawn(msg.sender, amount, i_cornDEX.currentPrice());\\n    }\\n\\n    function borrowCorn(uint256 borrowAmount) public {\\n        if (borrowAmount == 0) revert Lending__InvalidAmount();\\n\\n        s_userBorrowed[msg.sender] += borrowAmount;\\n        _validatePosition(msg.sender);\\n\\n        bool success = i_corn.transfer(msg.sender, borrowAmount);\\n        if (!success) revert Lending__BorrowingFailed();\\n\\n        emit AssetBorrowed(msg.sender, borrowAmount, i_cornDEX.currentPrice());\\n    }\\n\\n    function repayCorn(uint256 repayAmount) public {\\n        if (repayAmount == 0 || repayAmount > s_userBorrowed[msg.sender]) {\\n            revert Lending__InvalidAmount();\\n        }\\n\\n        s_userBorrowed[msg.sender] -= repayAmount;\\n\\n        bool success = i_corn.transferFrom(msg.sender, address(this), repayAmount);\\n        if (!success) revert Lending__RepayingFailed();\\n\\n        emit AssetRepaid(msg.sender, repayAmount, i_cornDEX.currentPrice());\\n    }\\n\\n    function liquidate(address user) public {\\n        if (!isLiquidatable(user)) revert Lending__NotLiquidatable();\\n\\n        uint256 userDebt = s_userBorrowed[user];\\n        if (i_corn.balanceOf(msg.sender) < userDebt) {\\n            revert Lending__InsufficientLiquidatorCorn();\\n        }\\n\\n        uint256 userCollateral = s_userCollateral[user];\\n        uint256 collateralValue = calculateCollateralValue(user);\\n\\n        // Pay debt\\n        i_corn.transferFrom(msg.sender, address(this), userDebt);\\n        s_userBorrowed[user] = 0;\\n\\n        // Calculate collateral payout\\n        uint256 collateralPurchased = (userDebt * userCollateral) / collateralValue;\\n        uint256 reward = (collateralPurchased * LIQUIDATOR_REWARD) / 100;\\n        uint256 payout = collateralPurchased + reward;\\n\\n        if (payout > userCollateral) payout = userCollateral;\\n        s_userCollateral[user] = userCollateral - payout;\\n\\n        (bool success,) = payable(msg.sender).call{value: payout}(\\\"\\\");\\n        if (!success) revert Lending__TransferFailed();\\n\\n        emit Liquidation(user, msg.sender, payout, userDebt, i_cornDEX.currentPrice());\\n    }\\n\\n    function calculateCollateralValue(address user) public view returns (uint256) {\\n        return (s_userCollateral[user] * i_cornDEX.currentPrice()) / 1e18;\\n    }\\n\\n    function isLiquidatable(address user) public view returns (bool) {\\n        uint256 ratio = _calculatePositionRatio(user);\\n        return (ratio * 100) < COLLATERAL_RATIO * 1e18;\\n    }\\n\\n    function _calculatePositionRatio(address user) internal view returns (uint256) {\\n        uint256 borrowed = s_userBorrowed[user];\\n        if (borrowed == 0) return type(uint256).max;\\n        return (calculateCollateralValue(user) * 1e18) / borrowed;\\n    }\\n\\n    function _validatePosition(address user) internal view {\\n        if (isLiquidatable(user)) revert Lending__UnsafePositionRatio();\\n    }\\n\\n    // Optional (side quest)\\n    function getMaxBorrowAmount(uint256 ethCollateralAmount) public view returns (uint256) {\\n        if (ethCollateralAmount == 0) return 0;\\n        uint256 value = (ethCollateralAmount * i_cornDEX.currentPrice()) / 1e18;\\n        return (value * 100) / COLLATERAL_RATIO;\\n    }\\n\\n    receive() external payable {}\\n}\\n\",\"keccak256\":\"0x62227eb03940b8430eb4fcc71dfa06024aac1353a7c010ca224ff2eabcdfd0b5\",\"license\":\"MIT\"}},\"version\":1}",
+  "bytecode": "0x60c060405234801561001057600080fd5b5060405161100238038061100283398101604081905261002f91610062565b6001600160a01b0391821660a05216608052610095565b80516001600160a01b038116811461005d57600080fd5b919050565b6000806040838503121561007557600080fd5b61007e83610046565b915061008c60208401610046565b90509250929050565b60805160a051610f096100f9600039600081816102890152818161060b015281816107c501528181610880015281816109a901528181610b740152610d150152600081816103960152818161046a01528181610ab10152610c520152610f096000f3fe6080604052600436106100ab5760003560e01c80637f3020c1116100645780637f3020c1146101a95780639e816999146101be578063bd00c24d146101c6578063d5de45a6146101f3578063d678598a14610213578063d9e69a051461023357600080fd5b8063042e02cf146100b75780630835e145146100ec5780632a5f2c231461011a5780632f865568146101475780636112fe2e1461016957806361a4d4ef1461018957600080fd5b366100b257005b600080fd5b3480156100c357600080fd5b506100d76100d2366004610de1565b610248565b60405190151581526020015b60405180910390f35b3480156100f857600080fd5b5061010c610107366004610de1565b61027c565b6040519081526020016100e3565b34801561012657600080fd5b5061010c610135366004610de1565b60016020526000908152604090205481565b34801561015357600080fd5b50610167610162366004610de1565b61033c565b005b34801561017557600080fd5b50610167610184366004610e0a565b6106b3565b34801561019557600080fd5b5061010c6101a4366004610e0a565b610861565b3480156101b557600080fd5b5061010c600a81565b610167610934565b3480156101d257600080fd5b5061010c6101e1366004610de1565b60006020819052908152604090205481565b3480156101ff57600080fd5b5061016761020e366004610e0a565b610a43565b34801561021f57600080fd5b5061016761022e366004610e0a565b610bd0565b34801561023f57600080fd5b5061010c607881565b60008061025483610d71565b90506102696078670de0b6b3a7640000610e39565b610274826064610e39565b109392505050565b6000670de0b6b3a76400007f00000000000000000000000000000000000000000000000000000000000000006001600160a01b0316639d1b464a6040518163ffffffff1660e01b8152600401602060405180830381865afa1580156102e5573d6000803e3d6000fd5b505050506040513d601f19601f820116820180604052508101906103099190610e50565b6001600160a01b03841660009081526020819052604090205461032c9190610e39565b6103369190610e69565b92915050565b61034581610248565b6103625760405163175ae04960e11b815260040160405180910390fd5b6001600160a01b03818116600090815260016020526040908190205490516370a0823160e01b8152336004820152909182917f0000000000000000000000000000000000000000000000000000000000000000909116906370a0823190602401602060405180830381865afa1580156103df573d6000803e3d6000fd5b505050506040513d601f19601f820116820180604052508101906104039190610e50565b1015610422576040516327f93fb360e11b815260040160405180910390fd5b6001600160a01b038216600090815260208190526040812054906104458461027c565b6040516323b872dd60e01b8152336004820152306024820152604481018590529091507f00000000000000000000000000000000000000000000000000000000000000006001600160a01b0316906323b872dd906064016020604051808303816000875af11580156104bb573d6000803e3d6000fd5b505050506040513d601f19601f820116820180604052508101906104df9190610e8b565b506001600160a01b0384166000908152600160205260408120819055816105068486610e39565b6105109190610e69565b905060006064610521600a84610e39565b61052b9190610e69565b905060006105398284610ead565b9050848111156105465750835b6105508186610ec0565b6001600160a01b038816600090815260208190526040808220929092559051339083908381818185875af1925050503d80600081146105ab576040519150601f19603f3d011682016040523d82523d6000602084013e6105b0565b606091505b50509050806105d25760405163a419137f60e01b815260040160405180910390fd5b336001600160a01b0316886001600160a01b03167f5a821a618ddb1a1fd304234a69c9d7f20c129d122fcf35593d13a07192664307848a7f00000000000000000000000000000000000000000000000000000000000000006001600160a01b0316639d1b464a6040518163ffffffff1660e01b8152600401602060405180830381865afa158015610667573d6000803e3d6000fd5b505050506040513d601f19601f8201168201806040525081019061068b9190610e50565b6040805193845260208401929092529082015260600160405180910390a35050505050505050565b8015806106ce57503360009081526020819052604090205481115b156106ec5760405163269cf19b60e11b815260040160405180910390fd5b336000908152602081905260408120805483929061070b908490610ec0565b9091555050336000908152600160205260409020541561072e5761072e33610db7565b604051600090339083908381818185875af1925050503d8060008114610770576040519150601f19603f3d011682016040523d82523d6000602084013e610775565b606091505b50509050806107975760405163a419137f60e01b815260040160405180910390fd5b336001600160a01b03167fdaed309a628faec6cab72194019e2a1a34e890ca9bf9be99788992dd54692819837f00000000000000000000000000000000000000000000000000000000000000006001600160a01b0316639d1b464a6040518163ffffffff1660e01b8152600401602060405180830381865afa158015610821573d6000803e3d6000fd5b505050506040513d601f19601f820116820180604052508101906108459190610e50565b6040805192835260208301919091520160405180910390a25050565b60008160000361087357506000919050565b6000670de0b6b3a76400007f00000000000000000000000000000000000000000000000000000000000000006001600160a01b0316639d1b464a6040518163ffffffff1660e01b8152600401602060405180830381865afa1580156108dc573d6000803e3d6000fd5b505050506040513d601f19601f820116820180604052508101906109009190610e50565b61090a9085610e39565b6109149190610e69565b90506078610923826064610e39565b61092d9190610e69565b9392505050565b346000036109555760405163269cf19b60e11b815260040160405180910390fd5b3360009081526020819052604081208054349290610974908490610ead565b92505081905550336001600160a01b03167f11f8990ac38271f23dea447d5728e9914fca7cea2edda43af6c43c415f8bc30b347f00000000000000000000000000000000000000000000000000000000000000006001600160a01b0316639d1b464a6040518163ffffffff1660e01b8152600401602060405180830381865afa158015610a05573d6000803e3d6000fd5b505050506040513d601f19601f82011682018060405250810190610a299190610e50565b6040805192835260208301919091520160405180910390a2565b80600003610a645760405163269cf19b60e11b815260040160405180910390fd5b3360009081526001602052604081208054839290610a83908490610ead565b90915550610a92905033610db7565b60405163a9059cbb60e01b8152336004820152602481018290526000907f00000000000000000000000000000000000000000000000000000000000000006001600160a01b03169063a9059cbb906044016020604051808303816000875af1158015610b02573d6000803e3d6000fd5b505050506040513d601f19601f82011682018060405250810190610b269190610e8b565b905080610b46576040516325b1478b60e21b815260040160405180910390fd5b336001600160a01b03167f6c8250ea4d625c09ee567802242f70b37c9dcfdb10a904563781c1ed7663c7cc837f00000000000000000000000000000000000000000000000000000000000000006001600160a01b0316639d1b464a6040518163ffffffff1660e01b8152600401602060405180830381865afa158015610821573d6000803e3d6000fd5b801580610beb57503360009081526001602052604090205481115b15610c095760405163269cf19b60e11b815260040160405180910390fd5b3360009081526001602052604081208054839290610c28908490610ec0565b90915550506040516323b872dd60e01b8152336004820152306024820152604481018290526000907f00000000000000000000000000000000000000000000000000000000000000006001600160a01b0316906323b872dd906064016020604051808303816000875af1158015610ca3573d6000803e3d6000fd5b505050506040513d601f19601f82011682018060405250810190610cc79190610e8b565b905080610ce75760405163c1cf149f60e01b815260040160405180910390fd5b336001600160a01b03167fc1afad9537411d7ba4a74e9ee309d18f26f72ee1bfc63647b61e9bca0eec322c837f00000000000000000000000000000000000000000000000000000000000000006001600160a01b0316639d1b464a6040518163ffffffff1660e01b8152600401602060405180830381865afa158015610821573d6000803e3d6000fd5b6001600160a01b038116600090815260016020526040812054808203610d9b575060001992915050565b80610da58461027c565b61092390670de0b6b3a7640000610e39565b610dc081610248565b15610dde57604051632606396760e21b815260040160405180910390fd5b50565b600060208284031215610df357600080fd5b81356001600160a01b038116811461092d57600080fd5b600060208284031215610e1c57600080fd5b5035919050565b634e487b7160e01b600052601160045260246000fd5b808202811582820484141761033657610336610e23565b600060208284031215610e6257600080fd5b5051919050565b600082610e8657634e487b7160e01b600052601260045260246000fd5b500490565b600060208284031215610e9d57600080fd5b8151801515811461092d57600080fd5b8082018082111561033657610336610e23565b8181038181111561033657610336610e2356fea26469706673582212205b801e674a18666c752cb58cebf5fe178a1d5158502be9560578d39f3755400b64736f6c63430008140033",
+  "deployedBytecode": "0x6080604052600436106100ab5760003560e01c80637f3020c1116100645780637f3020c1146101a95780639e816999146101be578063bd00c24d146101c6578063d5de45a6146101f3578063d678598a14610213578063d9e69a051461023357600080fd5b8063042e02cf146100b75780630835e145146100ec5780632a5f2c231461011a5780632f865568146101475780636112fe2e1461016957806361a4d4ef1461018957600080fd5b366100b257005b600080fd5b3480156100c357600080fd5b506100d76100d2366004610de1565b610248565b60405190151581526020015b60405180910390f35b3480156100f857600080fd5b5061010c610107366004610de1565b61027c565b6040519081526020016100e3565b34801561012657600080fd5b5061010c610135366004610de1565b60016020526000908152604090205481565b34801561015357600080fd5b50610167610162366004610de1565b61033c565b005b34801561017557600080fd5b50610167610184366004610e0a565b6106b3565b34801561019557600080fd5b5061010c6101a4366004610e0a565b610861565b3480156101b557600080fd5b5061010c600a81565b610167610934565b3480156101d257600080fd5b5061010c6101e1366004610de1565b60006020819052908152604090205481565b3480156101ff57600080fd5b5061016761020e366004610e0a565b610a43565b34801561021f57600080fd5b5061016761022e366004610e0a565b610bd0565b34801561023f57600080fd5b5061010c607881565b60008061025483610d71565b90506102696078670de0b6b3a7640000610e39565b610274826064610e39565b109392505050565b6000670de0b6b3a76400007f00000000000000000000000000000000000000000000000000000000000000006001600160a01b0316639d1b464a6040518163ffffffff1660e01b8152600401602060405180830381865afa1580156102e5573d6000803e3d6000fd5b505050506040513d601f19601f820116820180604052508101906103099190610e50565b6001600160a01b03841660009081526020819052604090205461032c9190610e39565b6103369190610e69565b92915050565b61034581610248565b6103625760405163175ae04960e11b815260040160405180910390fd5b6001600160a01b03818116600090815260016020526040908190205490516370a0823160e01b8152336004820152909182917f0000000000000000000000000000000000000000000000000000000000000000909116906370a0823190602401602060405180830381865afa1580156103df573d6000803e3d6000fd5b505050506040513d601f19601f820116820180604052508101906104039190610e50565b1015610422576040516327f93fb360e11b815260040160405180910390fd5b6001600160a01b038216600090815260208190526040812054906104458461027c565b6040516323b872dd60e01b8152336004820152306024820152604481018590529091507f00000000000000000000000000000000000000000000000000000000000000006001600160a01b0316906323b872dd906064016020604051808303816000875af11580156104bb573d6000803e3d6000fd5b505050506040513d601f19601f820116820180604052508101906104df9190610e8b565b506001600160a01b0384166000908152600160205260408120819055816105068486610e39565b6105109190610e69565b905060006064610521600a84610e39565b61052b9190610e69565b905060006105398284610ead565b9050848111156105465750835b6105508186610ec0565b6001600160a01b038816600090815260208190526040808220929092559051339083908381818185875af1925050503d80600081146105ab576040519150601f19603f3d011682016040523d82523d6000602084013e6105b0565b606091505b50509050806105d25760405163a419137f60e01b815260040160405180910390fd5b336001600160a01b0316886001600160a01b03167f5a821a618ddb1a1fd304234a69c9d7f20c129d122fcf35593d13a07192664307848a7f00000000000000000000000000000000000000000000000000000000000000006001600160a01b0316639d1b464a6040518163ffffffff1660e01b8152600401602060405180830381865afa158015610667573d6000803e3d6000fd5b505050506040513d601f19601f8201168201806040525081019061068b9190610e50565b6040805193845260208401929092529082015260600160405180910390a35050505050505050565b8015806106ce57503360009081526020819052604090205481115b156106ec5760405163269cf19b60e11b815260040160405180910390fd5b336000908152602081905260408120805483929061070b908490610ec0565b9091555050336000908152600160205260409020541561072e5761072e33610db7565b604051600090339083908381818185875af1925050503d8060008114610770576040519150601f19603f3d011682016040523d82523d6000602084013e610775565b606091505b50509050806107975760405163a419137f60e01b815260040160405180910390fd5b336001600160a01b03167fdaed309a628faec6cab72194019e2a1a34e890ca9bf9be99788992dd54692819837f00000000000000000000000000000000000000000000000000000000000000006001600160a01b0316639d1b464a6040518163ffffffff1660e01b8152600401602060405180830381865afa158015610821573d6000803e3d6000fd5b505050506040513d601f19601f820116820180604052508101906108459190610e50565b6040805192835260208301919091520160405180910390a25050565b60008160000361087357506000919050565b6000670de0b6b3a76400007f00000000000000000000000000000000000000000000000000000000000000006001600160a01b0316639d1b464a6040518163ffffffff1660e01b8152600401602060405180830381865afa1580156108dc573d6000803e3d6000fd5b505050506040513d601f19601f820116820180604052508101906109009190610e50565b61090a9085610e39565b6109149190610e69565b90506078610923826064610e39565b61092d9190610e69565b9392505050565b346000036109555760405163269cf19b60e11b815260040160405180910390fd5b3360009081526020819052604081208054349290610974908490610ead565b92505081905550336001600160a01b03167f11f8990ac38271f23dea447d5728e9914fca7cea2edda43af6c43c415f8bc30b347f00000000000000000000000000000000000000000000000000000000000000006001600160a01b0316639d1b464a6040518163ffffffff1660e01b8152600401602060405180830381865afa158015610a05573d6000803e3d6000fd5b505050506040513d601f19601f82011682018060405250810190610a299190610e50565b6040805192835260208301919091520160405180910390a2565b80600003610a645760405163269cf19b60e11b815260040160405180910390fd5b3360009081526001602052604081208054839290610a83908490610ead565b90915550610a92905033610db7565b60405163a9059cbb60e01b8152336004820152602481018290526000907f00000000000000000000000000000000000000000000000000000000000000006001600160a01b03169063a9059cbb906044016020604051808303816000875af1158015610b02573d6000803e3d6000fd5b505050506040513d601f19601f82011682018060405250810190610b269190610e8b565b905080610b46576040516325b1478b60e21b815260040160405180910390fd5b336001600160a01b03167f6c8250ea4d625c09ee567802242f70b37c9dcfdb10a904563781c1ed7663c7cc837f00000000000000000000000000000000000000000000000000000000000000006001600160a01b0316639d1b464a6040518163ffffffff1660e01b8152600401602060405180830381865afa158015610821573d6000803e3d6000fd5b801580610beb57503360009081526001602052604090205481115b15610c095760405163269cf19b60e11b815260040160405180910390fd5b3360009081526001602052604081208054839290610c28908490610ec0565b90915550506040516323b872dd60e01b8152336004820152306024820152604481018290526000907f00000000000000000000000000000000000000000000000000000000000000006001600160a01b0316906323b872dd906064016020604051808303816000875af1158015610ca3573d6000803e3d6000fd5b505050506040513d601f19601f82011682018060405250810190610cc79190610e8b565b905080610ce75760405163c1cf149f60e01b815260040160405180910390fd5b336001600160a01b03167fc1afad9537411d7ba4a74e9ee309d18f26f72ee1bfc63647b61e9bca0eec322c837f00000000000000000000000000000000000000000000000000000000000000006001600160a01b0316639d1b464a6040518163ffffffff1660e01b8152600401602060405180830381865afa158015610821573d6000803e3d6000fd5b6001600160a01b038116600090815260016020526040812054808203610d9b575060001992915050565b80610da58461027c565b61092390670de0b6b3a7640000610e39565b610dc081610248565b15610dde57604051632606396760e21b815260040160405180910390fd5b50565b600060208284031215610df357600080fd5b81356001600160a01b038116811461092d57600080fd5b600060208284031215610e1c57600080fd5b5035919050565b634e487b7160e01b600052601160045260246000fd5b808202811582820484141761033657610336610e23565b600060208284031215610e6257600080fd5b5051919050565b600082610e8657634e487b7160e01b600052601260045260246000fd5b500490565b600060208284031215610e9d57600080fd5b8151801515811461092d57600080fd5b8082018082111561033657610336610e23565b8181038181111561033657610336610e2356fea26469706673582212205b801e674a18666c752cb58cebf5fe178a1d5158502be9560578d39f3755400b64736f6c63430008140033",
+  "devdoc": {
+    "kind": "dev",
+    "methods": {},
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {},
+    "version": 1
+  },
+  "storageLayout": {
+    "storage": [
+      {
+        "astId": 109,
+        "contract": "contracts/Lending.sol:Lending",
+        "label": "s_userCollateral",
+        "offset": 0,
+        "slot": "0",
+        "type": "t_mapping(t_address,t_uint256)"
+      },
+      {
+        "astId": 113,
+        "contract": "contracts/Lending.sol:Lending",
+        "label": "s_userBorrowed",
+        "offset": 0,
+        "slot": "1",
+        "type": "t_mapping(t_address,t_uint256)"
+      }
+    ],
+    "types": {
+      "t_address": {
+        "encoding": "inplace",
+        "label": "address",
+        "numberOfBytes": "20"
+      },
+      "t_mapping(t_address,t_uint256)": {
+        "encoding": "mapping",
+        "key": "t_address",
+        "label": "mapping(address => uint256)",
+        "numberOfBytes": "32",
+        "value": "t_uint256"
+      },
+      "t_uint256": {
+        "encoding": "inplace",
+        "label": "uint256",
+        "numberOfBytes": "32"
+      }
+    }
+  }
+}

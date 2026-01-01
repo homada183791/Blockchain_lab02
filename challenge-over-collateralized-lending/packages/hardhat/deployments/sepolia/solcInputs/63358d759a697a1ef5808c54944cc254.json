@@ -1,0 +1,36 @@
+{
+  "language": "Solidity",
+  "sources": {
+    "contracts/Lending.sol": {
+      "content": "// SPDX-License-Identifier: MIT\npragma solidity ^0.8.20;\n\ninterface ICorn {\n    function transfer(address to, uint256 amount) external returns (bool);\n    function transferFrom(address from, address to, uint256 amount) external returns (bool);\n    function balanceOf(address user) external view returns (uint256);\n}\n\ninterface ICornDEX {\n    function currentPrice() external view returns (uint256);\n}\n\nerror Lending__InvalidAmount();\nerror Lending__UnsafePositionRatio();\nerror Lending__BorrowingFailed();\nerror Lending__RepayingFailed();\nerror Lending__TransferFailed();\nerror Lending__NotLiquidatable();\nerror Lending__InsufficientLiquidatorCorn();\n\ncontract Lending {\n    event CollateralAdded(address indexed user, uint256 amount, uint256 price);\n    event CollateralWithdrawn(address indexed user, uint256 amount, uint256 price);\n    event AssetBorrowed(address indexed user, uint256 amount, uint256 price);\n    event AssetRepaid(address indexed user, uint256 amount, uint256 price);\n    event Liquidation(\n        address indexed borrower,\n        address indexed liquidator,\n        uint256 collateralTaken,\n        uint256 debtRepaid,\n        uint256 price\n    );\n\n    uint256 public constant COLLATERAL_RATIO = 120; // 120%\n    uint256 public constant LIQUIDATOR_REWARD = 10; // 10%\n\n    ICorn private immutable i_corn;\n    ICornDEX private immutable i_cornDEX;\n\n    // ✅ MUST be public for tests (auto-getters)\n    mapping(address => uint256) public s_userCollateral; // ETH\n    mapping(address => uint256) public s_userBorrowed;   // CORN\n\n    // ✅ IMPORTANT: tests/deploy pass args as [cornDEX, corn]\n    constructor(address cornDEX, address corn) {\n        i_cornDEX = ICornDEX(cornDEX);\n        i_corn = ICorn(corn);\n    }\n\n    function addCollateral() public payable {\n        if (msg.value == 0) revert Lending__InvalidAmount();\n        s_userCollateral[msg.sender] += msg.value;\n        emit CollateralAdded(msg.sender, msg.value, i_cornDEX.currentPrice());\n    }\n\n    function withdrawCollateral(uint256 amount) public {\n        if (amount == 0 || s_userCollateral[msg.sender] < amount) {\n            revert Lending__InvalidAmount();\n        }\n\n        s_userCollateral[msg.sender] -= amount;\n\n        // Prevent unsafe withdrawals if user has debt\n        if (s_userBorrowed[msg.sender] > 0) {\n            _validatePosition(msg.sender);\n        }\n\n        (bool success,) = payable(msg.sender).call{value: amount}(\"\");\n        if (!success) revert Lending__TransferFailed();\n\n        emit CollateralWithdrawn(msg.sender, amount, i_cornDEX.currentPrice());\n    }\n\n    function borrowCorn(uint256 borrowAmount) public {\n        if (borrowAmount == 0) revert Lending__InvalidAmount();\n\n        s_userBorrowed[msg.sender] += borrowAmount;\n        _validatePosition(msg.sender);\n\n        bool success = i_corn.transfer(msg.sender, borrowAmount);\n        if (!success) revert Lending__BorrowingFailed();\n\n        emit AssetBorrowed(msg.sender, borrowAmount, i_cornDEX.currentPrice());\n    }\n\n    function repayCorn(uint256 repayAmount) public {\n        if (repayAmount == 0 || repayAmount > s_userBorrowed[msg.sender]) {\n            revert Lending__InvalidAmount();\n        }\n\n        s_userBorrowed[msg.sender] -= repayAmount;\n\n        bool success = i_corn.transferFrom(msg.sender, address(this), repayAmount);\n        if (!success) revert Lending__RepayingFailed();\n\n        emit AssetRepaid(msg.sender, repayAmount, i_cornDEX.currentPrice());\n    }\n\n    function liquidate(address user) public {\n        if (!isLiquidatable(user)) revert Lending__NotLiquidatable();\n\n        uint256 userDebt = s_userBorrowed[user];\n        if (i_corn.balanceOf(msg.sender) < userDebt) {\n            revert Lending__InsufficientLiquidatorCorn();\n        }\n\n        uint256 userCollateral = s_userCollateral[user];\n        uint256 collateralValue = calculateCollateralValue(user);\n\n        // Pay debt\n        i_corn.transferFrom(msg.sender, address(this), userDebt);\n        s_userBorrowed[user] = 0;\n\n        // Calculate collateral payout\n        uint256 collateralPurchased = (userDebt * userCollateral) / collateralValue;\n        uint256 reward = (collateralPurchased * LIQUIDATOR_REWARD) / 100;\n        uint256 payout = collateralPurchased + reward;\n\n        if (payout > userCollateral) payout = userCollateral;\n        s_userCollateral[user] = userCollateral - payout;\n\n        (bool success,) = payable(msg.sender).call{value: payout}(\"\");\n        if (!success) revert Lending__TransferFailed();\n\n        emit Liquidation(user, msg.sender, payout, userDebt, i_cornDEX.currentPrice());\n    }\n\n    function calculateCollateralValue(address user) public view returns (uint256) {\n        return (s_userCollateral[user] * i_cornDEX.currentPrice()) / 1e18;\n    }\n\n    function isLiquidatable(address user) public view returns (bool) {\n        uint256 ratio = _calculatePositionRatio(user);\n        return (ratio * 100) < COLLATERAL_RATIO * 1e18;\n    }\n\n    function _calculatePositionRatio(address user) internal view returns (uint256) {\n        uint256 borrowed = s_userBorrowed[user];\n        if (borrowed == 0) return type(uint256).max;\n        return (calculateCollateralValue(user) * 1e18) / borrowed;\n    }\n\n    function _validatePosition(address user) internal view {\n        if (isLiquidatable(user)) revert Lending__UnsafePositionRatio();\n    }\n\n    // Optional (side quest)\n    function getMaxBorrowAmount(uint256 ethCollateralAmount) public view returns (uint256) {\n        if (ethCollateralAmount == 0) return 0;\n        uint256 value = (ethCollateralAmount * i_cornDEX.currentPrice()) / 1e18;\n        return (value * 100) / COLLATERAL_RATIO;\n    }\n\n    receive() external payable {}\n}\n"
+    }
+  },
+  "settings": {
+    "optimizer": {
+      "enabled": true,
+      "runs": 200
+    },
+    "evmVersion": "paris",
+    "outputSelection": {
+      "*": {
+        "*": [
+          "abi",
+          "evm.bytecode",
+          "evm.deployedBytecode",
+          "evm.methodIdentifiers",
+          "metadata",
+          "devdoc",
+          "userdoc",
+          "storageLayout",
+          "evm.gasEstimates"
+        ],
+        "": [
+          "ast"
+        ]
+      }
+    },
+    "metadata": {
+      "useLiteralContent": true
+    }
+  }
+}
